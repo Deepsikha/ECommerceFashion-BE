@@ -1,0 +1,180 @@
+[
+  {
+    "ContainingType": "ECommerceFashion.Controllers.CategoryController",
+    "Method": "GetCategoriesListAsync",
+    "RelativePath": "api/Category/GetAllCategories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.CategoryController",
+    "Method": "GetSubCategoriesListAsync",
+    "RelativePath": "api/Category/GetAllSubCategories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.CategoryController",
+    "Method": "GetCategoryById",
+    "RelativePath": "api/Category/GetCategoryById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.CategoryController",
+    "Method": "GetSubCategoryByCategoryId",
+    "RelativePath": "api/Category/GetSubCategoryByCategoryId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.CategoryController",
+    "Method": "GetSubCategoryById",
+    "RelativePath": "api/Category/GetSubCategoryById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.ProductsController",
+    "Method": "GetProducts",
+    "RelativePath": "api/Products/GetAllProducts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryFilter",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "subCategoryFilter",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.ProductsController",
+    "Method": "GetAllProducts",
+    "RelativePath": "api/Products/GetAllProductsList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.ProductsController",
+    "Method": "GetProductsById",
+    "RelativePath": "api/Products/GetProductsById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.UserMasterController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/UserMaster/GetAllUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.UserMasterController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/UserMaster/GetUserById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.UserMasterController",
+    "Method": "AddUserDetails",
+    "RelativePath": "api/UserMaster/RegisterUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "users",
+        "Type": "ECommerceFashion.ViewModels.UserDetailsVM",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ECommerceFashion.Controllers.WeatherForecastController",
+    "Method": "Get",
+    "RelativePath": "WeatherForecast",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ECommerceFashion.WeatherForecast, ECommerceFashion, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetWeatherForecast"
+  }
+]

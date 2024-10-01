@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\DemoSix\\ECommerceFashion\\wwwroot\\Images\\peachytote.jpg",
+      "PackagePath": "staticwebassets\\Images\\peachytote.jpg"
+    },
+    {
+      "Id": "C:\\DemoSix\\ECommerceFashion\\wwwroot\\Images\\totebag-1.jpg",
+      "PackagePath": "staticwebassets\\Images\\totebag-1.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.ECommerceFashion.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.ECommerceFashion.props",
+      "PackagePath": "build\\ECommerceFashion.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.ECommerceFashion.props",
+      "PackagePath": "buildMultiTargeting\\ECommerceFashion.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.ECommerceFashion.props",
+      "PackagePath": "buildTransitive\\ECommerceFashion.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

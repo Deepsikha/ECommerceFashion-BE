@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "Hash": "VP2+Lg/yEpGLQBShyWhntyU/lAO12IOfIUB10YqUgrk=",
+  "Source": "ECommerceFashion",
+  "BasePath": "_content/ECommerceFashion",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ECommerceFashion\\wwwroot",
+      "Source": "ECommerceFashion",
+      "ContentRoot": "C:\\DemoSix\\ECommerceFashion\\wwwroot\\",
+      "BasePath": "_content/ECommerceFashion",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\DemoSix\\ECommerceFashion\\wwwroot\\Images\\peachytote.jpg",
+      "SourceId": "ECommerceFashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\DemoSix\\ECommerceFashion\\wwwroot\\",
+      "BasePath": "_content/ECommerceFashion",
+      "RelativePath": "Images/peachytote.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\peachytote.jpg"
+    },
+    {
+      "Identity": "C:\\DemoSix\\ECommerceFashion\\wwwroot\\Images\\totebag-1.jpg",
+      "SourceId": "ECommerceFashion",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\DemoSix\\ECommerceFashion\\wwwroot\\",
+      "BasePath": "_content/ECommerceFashion",
+      "RelativePath": "Images/totebag-1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\totebag-1.jpg"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+C:\DemoSix\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.deps.json
+C:\DemoSix\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.dll
+C:\DemoSix\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.pdb
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfoInputs.cache
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfo.cs
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.dll
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\refint\DataAccessLayer.dll
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.pdb
+C:\DemoSix\DataAccessLayer\obj\Debug\net6.0\ref\DataAccessLayer.dll
