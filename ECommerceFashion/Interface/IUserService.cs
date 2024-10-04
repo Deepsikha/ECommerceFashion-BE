@@ -7,7 +7,9 @@ namespace ECommerceFashion.Interface
     {
         Task<List<UserMaster>> GetUserListAsync();
         Task<UserMaster> GetUserById(int id);
-        Task<bool> AddUserDetails(UserDetailsVM users);
+        Task<int> AddUserDetails(UserDetailsVM users);
         //Task<UserMaster> GetUserByEmail(string email);
+        string GenerateToken(UserMaster user);
+        Task<UserMaster> GetUser(string email, string password);
     }
 }
