@@ -3,6 +3,7 @@ using ECommerceFashion.Data;
 using ECommerceFashion.Interface;
 using ECommerceFashion.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using XAct;
 
 namespace ECommerceFashion.Repositories
 {
@@ -68,7 +69,7 @@ namespace ECommerceFashion.Repositories
                 .Join(_dataContext.SubCategoryMaster, p => p.SubCategoryId, sc => sc.Id, (p, sc) => new { p, sc })
                 .Join(_dataContext.CategoryMaster, psc => psc.sc.CategoryId, pc => pc.Id, (psc, pc) => new { psc, pc })
                 .Join(_dataContext.ImageGallery, ppsc => ppsc.psc.p.ImageGalleryId, pg => pg.Id, (ppsc, pg) => new { ppsc, pg })
-               
+
                 .Select(d => new ProductDetailsVM
                 {
                     Id = d.ppsc.psc.p.Id,
@@ -82,7 +83,7 @@ namespace ECommerceFashion.Repositories
                 })
                 .ToListAsync();
             return data;
-        } 
+        }
         public async Task<ProductDetailsVM> GetAllProductsByProductId(int id)
         {
             var data = await _dataContext.ProductMaster
@@ -103,6 +104,110 @@ namespace ECommerceFashion.Repositories
                 })
                 .FirstOrDefaultAsync();
             return data;
+        }
+
+        public async Task<List<CartDetailsVM>> GetCartDetails(int userId)
+        {
+            var data = await _dataContext.CartDetails
+                .Join(_dataContext.ProductMaster, cd => cd.ProductId, p => p.Id, (cd, p) => new { cd, p })
+                .Join(_dataContext.UserMaster, cdp => cdp.cd.UserId, u => u.Id, (cdp, u) => new { cdp, u })
+                .Join(_dataContext.ImageGallery, cdpu => cdpu.cdp.p.ImageGalleryId, ig => ig.Id, (cdpu, ig) => new { cdpu, ig })
+                .Where(s => s.cdpu.u.Id == userId)
+                .Select(x => new CartDetailsVM
+                {
+                    Id = x.cdpu.cdp.cd.Id,
+                    ProductId = x.cdpu.cdp.p.Id,
+                    ProductName = x.cdpu.cdp.p.Name,
+                    ProductPrice = x.cdpu.cdp.p.Price,
+                    UserEmail = x.cdpu.u.EmailAddress,
+                    Image = x.ig.FilePath,
+                    Quantity = x.cdpu.cdp.cd.Quantity,
+                    ProductTotalAmount = x.cdpu.cdp.cd.TotalAmount
+                })
+                .ToListAsync();
+            return data;
+        }
+
+        public async Task<bool> GetCartDetailsAlreadyExist(int userId, int productId)
+        {
+            var data = await _dataContext.CartDetails.FirstOrDefaultAsync(s => s.UserId == userId && s.ProductId == productId);
+            return data != null ? true : false;
+        }
+
+        public async Task<bool> GetWishListDetailsAlreadyExist(int userId, int productId)
+        {
+            var data = await _dataContext.WishlistDetails.FirstOrDefaultAsync(s => s.UserId == userId && s.ProductId == productId);
+            return data != null ? true : false;
+        }
+
+        public async Task<CartDetails> GetCartDetailsByCartId(int cartId)
+        {
+            var data = await _dataContext.CartDetails.FirstOrDefaultAsync(s => s.Id == cartId);
+            return data;
+        }
+
+        public async Task<bool> AddProductsToCart(CartDetails cartDetails)
+        {
+            await _dataContext.AddAsync(cartDetails);
+            await _dataContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateProductsToCart(CartDetails cartDetails)
+        {
+            _dataContext.Update(cartDetails);
+            await _dataContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteCartDetails(int cartId)
+        {
+            var data = await _dataContext.CartDetails.FirstOrDefaultAsync(s => s.Id == cartId);
+            if (data != null)
+            {
+                _dataContext.Remove(data);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        public async Task<List<WishlistVM>> GetWishlistDetails(int userId)
+        {
+            var data = await _dataContext.WishlistDetails
+                .Join(_dataContext.ProductMaster, w => w.ProductId, p => p.Id, (w, p) => new { w, p })
+                .Join(_dataContext.UserMaster, wp => wp.w.UserId, u => u.Id, (wp, u) => new { wp, u })
+                 .Join(_dataContext.ImageGallery, cdpu => cdpu.wp.p.ImageGalleryId, ig => ig.Id, (cdpu, ig) => new { cdpu, ig })
+                .Where(s => s.cdpu.u.Id == userId)
+                .Select(x => new WishlistVM
+                {
+                    Id = x.cdpu.wp.w.Id,
+                    ProductName = x.cdpu.wp.p.Name,
+                    ProductPrice = x.cdpu.wp.p.Price,
+                    ProductDescription = x.cdpu.wp.p.Description,
+                    UserEmail = x.cdpu.u.EmailAddress,
+                    Image = x.ig.FilePath
+                })
+                .ToListAsync();
+            return data;
+        }
+
+        public async Task<bool> AddProductsToWishlist(WishlistDetails wishlistDetails)
+        {
+            await _dataContext.AddAsync(wishlistDetails);
+            await _dataContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteWishlistDetails(int id)
+        {
+            var data = await _dataContext.WishlistDetails.FirstOrDefaultAsync(s => s.Id == id);
+            if (data != null)
+            {
+                _dataContext.Remove(data);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

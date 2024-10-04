@@ -1,4 +1,5 @@
 ﻿using ECommerceFashion.Interface;
+using ECommerceFashion.Repositories;
 using ECommerceFashion.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -46,13 +47,15 @@ namespace ECommerceFashion.Controllers
         }
 
         [HttpPost("RegisterUser")]
-        public async Task<IActionResult> AddUserDetails([FromBody]UserDetailsVM users)
+        public async Task<IActionResult> AddUserDetails([FromBody] UserDetailsVM users)
         {
             try
             {
                 var res = await _userService.AddUserDetails(users);
-                if (res)
-                    return StatusCode(StatusCodes.Status200OK,"Inserted Successfully.");
+                if (res == 1)
+                    return StatusCode(StatusCodes.Status200OK, "Inserted Successfully.");
+                else if (res == -1)
+                    return StatusCode(StatusCodes.Status200OK, "Email already exists.");
                 else
                     return StatusCode(StatusCodes.Status400BadRequest);
             }
@@ -60,6 +63,17 @@ namespace ECommerceFashion.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] UserVM userDto)
+        {
+            var user = await _userService.GetUser(userDto.EmailAddress, userDto.Password);
+            if (user == null)
+                return Unauthorized();
+
+            var token = _userService.GenerateToken(user);
+            return StatusCode(StatusCodes.Status200OK, new { Token = token, message = "Login Successful." });
         }
     }
 }

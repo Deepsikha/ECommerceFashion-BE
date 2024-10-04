@@ -16,7 +16,6 @@ namespace ECommerceFashion.Repositories
             return data;
         }
 
-
         public async Task<UserMaster> GetUserById(int id)
         {
             var data = await _dataContext.UserMaster.FirstOrDefaultAsync(x => x.Id == id);
@@ -32,8 +31,13 @@ namespace ECommerceFashion.Repositories
         
         public async Task<UserMaster> GetUserByEmail(string email)
         {
-            var data = await _dataContext.UserMaster.Where(x => x.EmailAddress == email).FirstOrDefaultAsync();
+            var data = await _dataContext.UserMaster.FirstOrDefaultAsync(x => x.EmailAddress == email);
             return data;
+        }
+
+        public async Task<UserMaster> GetUser(string email, string password)
+        {
+            return await _dataContext.UserMaster.FirstOrDefaultAsync(u => u.EmailAddress== email && u.Password == password);
         }
     }
 }

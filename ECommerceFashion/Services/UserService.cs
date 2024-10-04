@@ -3,9 +3,9 @@ using ECommerceFashion.Interface;
 using ECommerceFashion.ViewModels;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
-using XSystem.Security.Cryptography;
-
 namespace ECommerceFashion.Services
 {
     public class UserService : IUserService
@@ -44,13 +44,18 @@ namespace ECommerceFashion.Services
                 throw ex;
             }
         }
-        public async Task<bool> AddUserDetails(UserDetailsVM users)
+        public async Task<int> AddUserDetails(UserDetailsVM users)
         {
             try
             {
                 if (users == null)
                 {
-                    return false;
+                    return 0;
+                }
+                var alreadyExist = _userRepository.GetUserByEmail(users.EmailAddress);
+                if (alreadyExist != null)
+                {
+                    return -1;
                 }
                 UserMaster userDetails = new()
                 {
@@ -64,8 +69,7 @@ namespace ECommerceFashion.Services
                 };
 
                 var userdata = await _userRepository.AddUserDetails(userDetails);
-
-                return true;
+                return userdata ? 1 : 0;
             }
             catch (Exception ex)
             {
@@ -73,31 +77,97 @@ namespace ECommerceFashion.Services
                 throw ex;
             }
         }
-        private string EncryptPassword(String password)
+        public static string EncryptPassword(string text)
         {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] encrypt;
-            UTF8Encoding encode = new UTF8Encoding();
-            //encrypt the given password string into Encrypted data  
-            encrypt = md5.ComputeHash(encode.GetBytes(password));
-            StringBuilder encryptdata = new StringBuilder();
-            //Create a new string by using the encrypted data  
-            for (int i = 0; i < encrypt.Length; i++)
-            {
-                encryptdata.Append(encrypt[i].ToString());
-            }
-            return encryptdata.ToString();
-        }
-        private string GenerateJSONWebToken(UserMaster userInfo)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var key = Encoding.UTF8.GetBytes("E546C8DF278CD5931069B522E695D4F2");
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              null,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
+            using (var aesAlg = Aes.Create())
+            {
+                using (var encryptor = aesAlg.CreateEncryptor(key, aesAlg.IV))
+                {
+                    using (var msEncrypt = new MemoryStream())
+                    {
+                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                        using (var swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            swEncrypt.Write(text);
+                        }
+
+                        var iv = aesAlg.IV;
+
+                        var decryptedContent = msEncrypt.ToArray();
+
+                        var result = new byte[iv.Length + decryptedContent.Length];
+
+                        Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
+                        Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
+
+                        return Convert.ToBase64String(result);
+                    }
+                }
+            }
+        }
+
+        public static string DecryptedPassword(string cipherText)
+        {
+            var fullCipher = Convert.FromBase64String(cipherText);
+
+            var iv = new byte[16];
+            var cipher = new byte[16];
+
+            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
+            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, iv.Length);
+            var key = Encoding.UTF8.GetBytes("E546C8DF278CD5931069B522E695D4F2");
+
+            using (var aesAlg = Aes.Create())
+            {
+                using (var decryptor = aesAlg.CreateDecryptor(key, iv))
+                {
+                    string result;
+                    using (var msDecrypt = new MemoryStream(cipher))
+                    {
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                result = srDecrypt.ReadToEnd();
+                            }
+                        }
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public async Task<UserMaster> GetUser(string email, string password)
+        {
+            var data = await _userRepository.GetUserByEmail(email);
+
+            var decryptedPassword = DecryptedPassword(data.Password);
+            if (decryptedPassword == password)
+                return data;
+            return null;
+        }
+
+        public string GenerateToken(UserMaster user)
+        {
+            
+            var claims = new[]
+            {
+                new Claim("email", user.EmailAddress),
+                new Claim("id", user.Id.ToString())
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Issuer"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
