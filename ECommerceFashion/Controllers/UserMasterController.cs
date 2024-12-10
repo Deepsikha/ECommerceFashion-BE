@@ -52,10 +52,10 @@ namespace ECommerceFashion.Controllers
             try
             {
                 var res = await _userService.AddUserDetails(users);
-                if (res == 1)
-                    return StatusCode(StatusCodes.Status200OK, "Inserted Successfully.");
+                if (res == 1) 
+                    return StatusCode(StatusCodes.Status200OK, new { statuscode = StatusCodes.Status200OK, message = "Inserted Successfully." });
                 else if (res == -1)
-                    return StatusCode(StatusCodes.Status200OK, "Email already exists.");
+                    return StatusCode(StatusCodes.Status302Found, new {statuscode= StatusCodes.Status302Found,message = "Email already exist." });
                 else
                     return StatusCode(StatusCodes.Status400BadRequest);
             }
