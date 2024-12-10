@@ -31,7 +31,16 @@ namespace ECommerceFashion.Repositories
         
         public async Task<UserMaster> GetUserByEmail(string email)
         {
-            var data = await _dataContext.UserMaster.FirstOrDefaultAsync(x => x.EmailAddress == email);
+            //var data = await _dataContext.UserMaster.Where(x => x.EmailAddress == email).FirstOrDefaultAsync();
+            var data = await _dataContext.UserMaster.Where(x => x.EmailAddress == email).Select(
+                s => new UserMaster
+                {
+                    Id = s.Id,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    EmailAddress = s.EmailAddress,
+                    Password = s.Password
+                }).FirstOrDefaultAsync();
             return data;
         }
 

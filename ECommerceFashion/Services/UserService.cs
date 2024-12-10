@@ -52,7 +52,7 @@ namespace ECommerceFashion.Services
                 {
                     return 0;
                 }
-                var alreadyExist = _userRepository.GetUserByEmail(users.EmailAddress);
+                var alreadyExist = await _userRepository.GetUserByEmail(users.EmailAddress);
                 if (alreadyExist != null)
                 {
                     return -1;
