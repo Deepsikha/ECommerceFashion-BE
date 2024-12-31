@@ -16,7 +16,7 @@ This is a .NET Core-based e-commerce application focused on fashion, allowing us
  <ul>
    <li>Clone the repository:</li>
 
->   https://github.com/Deepsikha/ECommerceFashion-FE.git
+>   https://github.com/Deepsikha/ECommerceFashion-BE.git
 
 <li> Update the database connection string in <b>appsettings.json</b> as follows:</li>
 
